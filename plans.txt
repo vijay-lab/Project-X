@@ -1,0 +1,33 @@
+XFiber					
+					
+Blue Smart	Blue	Orange 	Red	
+₹250 	₹338 	423	592	Without GST	
+₹295 	₹399 	₹499 	₹699 	With GST	
+10Mbps	30 Mbps	50 Mbps	100 Mbps		
+500 GB	Unlimited	Unlimited	Unlimited		
+30 Days	30 Days	30 Days	30 Days		
+					
+₹750 	₹1,014 	₹1,269 	₹1,776 	Without GST	
+₹885 	₹1,197 	₹1,497 	₹2,096 	With GST	
+10Mbps	30 Mbps	50 Mbps	100 Mbps		
+500 GB	Unlimited	Unlimited	Unlimited		
+90 Days	90 Days	90 Days	90 Days		
+					
+₹1,500 	₹1,927 	₹2,411 	₹3,374 	Without GST
+₹1,770 	₹2,273 	₹2,845 	₹3,982 	With GST	
+10Mbps	30 Mbps	50 Mbps	100 Mbps		
+500 GB	Unlimited	Unlimited	Unlimited		
+180 Days	180 Days	180 Days	180 Days		
+					
+₹2,711 	₹3,650 	₹4,568 	₹6,394 	Without GST	
+₹3,199 	₹4,307 	₹5,391 	₹7,544 	With GST	
+10Mbps	30 Mbps	50 Mbps	100 Mbps		
+500 GB	Unlimited	Unlimited	Unlimited		
+365 Days	365 Days	365 Days	365 Days		
+					
+*Free Installation with 3/6/12 Months Plan					
+* No Cap on Data uses on unlimited Plans					
+* NON WIFI ONU INCLUDED WITH 10MBPS PLAN	
+* 5% Discount on 6 month
+* 10% discount on 12 months				
+* 10Mbps Plan is for smart Iot Connectivity and to make DVR/NVR/Camera Online					
