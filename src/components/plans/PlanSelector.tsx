@@ -71,7 +71,6 @@ const planIcons: Record<PlanName, JSX.Element> = {
 
 export default function PlanSelector() {
   const [selectedDuration, setSelectedDuration] = useState<Duration>('30')
-  const [selectedSpeed, setSelectedSpeed] = useState<Speed>('30')
 
   return (
     <section className="py-20 px-4">
