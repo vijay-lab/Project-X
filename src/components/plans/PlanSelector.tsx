@@ -1,7 +1,8 @@
 'use client'
 import { JSX, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { StarIcon, BoltIcon, FireIcon, RocketLaunchIcon } from '@heroicons/react/24/solid'
+import PlanInquiryForm from './PlanInquiryForm'
 
 type Duration = '30' | '90' | '180' | '365'
 type Speed = '10' | '30' | '50' | '100'
@@ -69,77 +70,188 @@ const planIcons: Record<PlanName, JSX.Element> = {
   'Red': <StarIcon className="h-8 w-8 text-red-400" />
 }
 
+const planFeatures = {
+  'Blue Smart': [
+    'Perfect for light users',
+    'HD streaming',
+    'Basic gaming',
+    'Video calls'
+  ],
+  'Blue': [
+    'Ideal for small families',
+    '4K streaming',
+    'Fast gaming',
+    'Multiple devices'
+  ],
+  'Orange': [
+    'Best for power users',
+    '8K streaming',
+    'Pro gaming',
+    'Smart home ready',
+    'Priority support'
+  ],
+  'Red': [
+    'Ultimate experience',
+    'Multiple 8K streams',
+    'Competitive gaming',
+    'Future-proof',
+    'Premium support',
+    'Static IP included'
+  ]
+}
+
 export default function PlanSelector() {
   const [selectedDuration, setSelectedDuration] = useState<Duration>('30')
+  const [hoveredPlan, setHoveredPlan] = useState<PlanName | null>(null)
+  const [selectedPlan, setSelectedPlan] = useState<{name: PlanName; details: PlanDetails} | null>(null)
+  const [showInquiryForm, setShowInquiryForm] = useState(false)
+  const calculateSavings = (duration: Duration) => {
+    switch (duration) {
+      case '365': return '20%'
+      case '180': return '15%'
+      case '90': return '10%'
+      default: return '0%'
+    }
+  }
+
   return (
     <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Select Duration</h2>
-          <div className="flex gap-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl font-bold text-white mb-4">Choose Your Perfect Plan</h2>
+          <p className="text-xl text-blue-100">Select a duration and find the speed that matches your needs</p>
+        </motion.div>
+
+        <motion.div 
+          className="bg-white/5 backdrop-blur-lg p-4 rounded-2xl mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div className="flex flex-wrap justify-center gap-4">
             {['30', '90', '180', '365'].map((duration) => (
-              <button
+              <motion.button
                 key={duration}
                 onClick={() => setSelectedDuration(duration as Duration)}
-                className={`px-6 py-2 rounded-full ${
-                  selectedDuration === duration 
-                    ? 'bg-white text-blue-600' 
-                    : 'bg-white/10 text-white'
+                className={`px-8 py-3 rounded-xl transition-all ${
+                  selectedDuration === duration
+                    ? 'bg-blue-500 text-white shadow-lg scale-105'
+                    : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
+                whileHover={{ scale: selectedDuration === duration ? 1.05 : 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {duration} Days
-              </button>
+                <div className="text-sm opacity-70">
+                  Save {calculateSavings(duration as Duration)}
+                </div>
+              </motion.button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {(Object.entries(plans) as [PlanName, PlanDetails][]).map(([name, plan], index) => (
             <motion.div
               key={name}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className={`relative ${
-                name === "Orange" 
-                  ? 'bg-gradient-to-b from-orange-500 to-orange-600 scale-105 shadow-xl' 
-                  : 'bg-white/10 backdrop-blur-md'
-              } rounded-2xl p-6 text-white`}
+              onHoverStart={() => setHoveredPlan(name)}
+              onHoverEnd={() => setHoveredPlan(null)}
+              className={`relative overflow-hidden ${
+                name === "Orange"
+                  ? 'bg-gradient-to-br from-orange-500 via-orange-400 to-yellow-500'
+                  : 'bg-gradient-to-br from-white/10 to-white/5'
+              } rounded-2xl p-6 backdrop-blur-lg ${
+                name === "Orange" ? 'lg:scale-105' : ''
+              }`}
             >
-              {name === "Orange" && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-300 text-orange-800 px-4 py-1 rounded-full text-sm font-bold">
-                  Most Popular
+              <AnimatePresence>
+                {hoveredPlan === name && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent"
+                  />
+                )}
+              </AnimatePresence>
+
+              <div className="relative z-10">
+                {name === "Orange" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute -top-6 left-1/2 transform -translate-x-1/2"
+                  >
+                    <div className="bg-white text-orange-500 px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+                      Most Popular
+                    </div>
+                  </motion.div>
+                )}
+
+                <div className="text-center text-white">
+                  <div className="flex justify-center mb-4">
+                    {planIcons[name]}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">{name}</h3>
+                  <div className="text-5xl font-bold mb-2">
+                    {plan.speed}
+                    <span className="text-lg"> Mbps</span>
+                  </div>
+                  <div className="text-lg mb-6 opacity-80">{plan.data}</div>
+                  
+                  <div className="space-y-2 mb-6 text-sm">
+                    {planFeatures[name].map((feature, i) => (
+                      <div key={i} className="flex items-center justify-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="text-3xl font-bold mb-4">
+                    ₹{plan.prices[selectedDuration].withoutGST}
+                    <span className="text-sm opacity-70">/mo +GST</span>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      setSelectedPlan({ name, details: plan })
+                      setShowInquiryForm(true)
+                    }}
+                    className={`w-full ${
+                      name === "Orange"
+                        ? 'bg-white text-orange-500'
+                        : 'bg-blue-500 text-white'
+                    } py-3 rounded-xl font-semibold shadow-lg`}
+                  >
+                    Get Started
+                  </motion.button>
                 </div>
-              )}
-              <div className="text-center">
-                <div className="flex justify-center mb-4">
-                  {planIcons[name]}
-                </div>
-                <h3 className="text-2xl font-bold mb-4">{name}</h3>
-                <div className="text-4xl font-bold mb-2">
-                  {plan.speed} Mbps
-                </div>
-                <div className="text-lg mb-4">{plan.data}</div>
-                <div className="text-3xl font-bold mb-2">
-                  ₹{plan.prices[selectedDuration].withoutGST}
-                  <span className="text-sm align-top">+GST</span>
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`w-full ${
-                    name === "Orange"
-                      ? 'bg-orange-300 text-orange-800'
-                      : 'bg-white text-blue-600'
-                  } py-2 rounded-full font-semibold mt-4`}
-                >
-                  Select Plan
-                </motion.button>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+      {showInquiryForm && selectedPlan && (
+        <PlanInquiryForm 
+          selectedPlan={{
+            name: selectedPlan.name,
+            speed: selectedPlan.details.speed,
+            data: selectedPlan.details.data,
+            price: selectedPlan.details.prices[selectedDuration].withoutGST,
+            duration: selectedDuration
+          }}
+          onClose={() => setShowInquiryForm(false)}
+        />
+      )}
     </section>
   )
 }

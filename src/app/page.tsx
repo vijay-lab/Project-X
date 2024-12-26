@@ -1,13 +1,10 @@
 'use client'
+
 import dynamic from 'next/dynamic'
 import Navbar from '@/components/layout/Navbar'
-import FloatingNav from '@/components/layout/FloatingNav'
-
 import Hero from '@/components/home/Hero'
 import SectionWrapper from '@/components/layout/SectionWrapper'
-
-
-  
+import Footer from '@/components/layout/Footer'
 
 // Lazy load components for better performance
 const Features = dynamic(() => import('@/components/home/Features'))
@@ -16,18 +13,18 @@ const InstallationGuide = dynamic(() => import('@/components/home/installation/I
 const TestimonialsSection = dynamic(() => import('@/components/home/testimonials/TestimonialsSection'))
 
 const sections = [
-    { id: 'home', label: 'Home', component: Hero },
-    { id: 'features', label: 'Features', component: Features },
-    { id: 'plans', label: 'Plans', component: PlanSelector },
-    { id: 'installation', label: 'Installation', component: InstallationGuide },
-    { id: 'testimonials', label: 'Testimonials', component: TestimonialsSection }
-  ]
+  { id: 'home', label: 'Home', component: Hero },
+  { id: 'features', label: 'Features', component: Features },
+  { id: 'plans', label: 'Plans', component: PlanSelector },
+  { id: 'installation', label: 'Installation', component: InstallationGuide },
+  { id: 'testimonials', label: 'Testimonials', component: TestimonialsSection }
+]
 
 export default function Page() {
   return (
     <main className="min-h-screen bg-gradient-to-r from-blue-600 to-blue-800">
       <Navbar sections={sections} />
-      <FloatingNav />
+      
       
       <SectionWrapper id="home">
         <Hero />
@@ -48,6 +45,8 @@ export default function Page() {
       <SectionWrapper id="testimonials">
         <TestimonialsSection />
       </SectionWrapper>
+
+      <Footer/>
     </main>
   )
 }
