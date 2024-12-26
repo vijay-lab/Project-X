@@ -213,12 +213,12 @@ export default function PlanSelector() {
                       </div>
                     ))}
                   </div>
-
                   <div className="text-3xl font-bold mb-4">
                     ₹{plan.prices[selectedDuration].withoutGST}
-                    <span className="text-sm opacity-70">/mo +GST</span>
+                    <span className="text-sm opacity-70">
+                      {selectedDuration === '30' ? '/mo' : ` for ${selectedDuration} days`} +GST
+                    </span>
                   </div>
-
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
